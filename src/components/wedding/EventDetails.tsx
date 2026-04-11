@@ -26,27 +26,27 @@ const EventCard = ({ event, index }: { event: typeof events[0]; index: number })
   return (
     <motion.div
       ref={ref}
-      className="glass-card rounded-xl p-8 md:p-10 text-center border-gradient-gold"
-      initial={{ opacity: 0, y: 40 }}
+      className="glass-card-premium rounded-2xl p-8 md:p-10 text-center border-gradient-gold"
+      initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.2 }}
+      transition={{ duration: 0.7, delay: index * 0.2, ease: [0.16, 1, 0.3, 1] }}
     >
-      <h3 className="font-serif text-2xl md:text-3xl text-primary mb-6">{event.title}</h3>
+      <h3 className="font-serif text-2xl md:text-3xl text-primary mb-8">{event.title}</h3>
 
-      <div className="space-y-4">
-        <div className="flex items-center justify-center gap-3 text-foreground/70">
-          <Calendar className="w-4 h-4 text-primary" />
+      <div className="space-y-5">
+        <div className="flex items-center justify-center gap-3 text-foreground/60">
+          <Calendar className="w-4 h-4 text-primary/70 flex-shrink-0" />
           <span className="font-sans text-sm">{event.date}</span>
         </div>
-        <div className="flex items-center justify-center gap-3 text-foreground/70">
-          <Clock className="w-4 h-4 text-primary" />
+        <div className="flex items-center justify-center gap-3 text-foreground/60">
+          <Clock className="w-4 h-4 text-primary/70 flex-shrink-0" />
           <span className="font-sans text-sm">{event.time}</span>
         </div>
-        <div className="flex items-center justify-center gap-3 text-foreground/70">
-          <MapPin className="w-4 h-4 text-primary" />
+        <div className="flex items-center justify-center gap-3 text-foreground/60">
+          <MapPin className="w-4 h-4 text-primary/70 flex-shrink-0" />
           <div>
             <p className="font-sans text-sm font-medium">{event.location}</p>
-            <p className="font-sans text-xs text-foreground/50">{event.address}</p>
+            <p className="font-sans text-xs text-foreground/40 mt-0.5">{event.address}</p>
           </div>
         </div>
       </div>
@@ -62,11 +62,11 @@ const EventDetails = () => {
     <section id="event" className="section-padding" ref={ref}>
       <div className="max-w-4xl mx-auto">
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
         >
-          <p className="font-sans text-xs tracking-[0.3em] uppercase text-foreground/40 mb-3">
+          <p className="font-sans text-xs tracking-[0.3em] uppercase text-foreground/30 mb-4">
             Save the Date
           </p>
           <h2 className="font-serif text-3xl md:text-4xl text-gradient-gold">

@@ -7,7 +7,7 @@ const MusicPlayer = ({ isOpen }: { isOpen: boolean }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    if (isOpen && audioRef.current) {
+    if (isOpen && audioRef.current && !playing) {
       audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
     }
   }, [isOpen]);
@@ -28,15 +28,15 @@ const MusicPlayer = ({ isOpen }: { isOpen: boolean }) => {
         ref={audioRef}
         loop
         preload="none"
-        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+        src="https://cdn.pixabay.com/audio/2024/11/29/audio_d4e4e15e38.mp3"
       />
       {isOpen && (
         <motion.button
-          className="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full glass-card flex items-center justify-center glow-gold"
+          className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full glass-card-premium flex items-center justify-center border border-primary/20"
           onClick={toggle}
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ scale: 1.1, boxShadow: "0 0 20px hsl(43 76% 52% / 0.3)" }}
           whileTap={{ scale: 0.9 }}
           title={playing ? "Mute" : "Play music"}
         >

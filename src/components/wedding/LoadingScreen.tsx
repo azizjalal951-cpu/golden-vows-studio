@@ -16,28 +16,28 @@ const LoadingScreen = ({ isVisible }: LoadingScreenProps) => {
         >
           <motion.img
             src={ornament}
-            alt="ornament"
-            className="w-24 h-24 mb-6 opacity-60 animate-spin-slow"
-            initial={{ scale: 0, rotate: 0 }}
-            animate={{ scale: 1, rotate: 360 }}
-            transition={{ duration: 1.5, ease: "easeOut" }}
+            alt=""
+            className="w-20 h-20 mb-8 opacity-50"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 0.5, rotate: 360 }}
+            transition={{ duration: 2, ease: "easeOut" }}
           />
           <motion.p
-            className="font-serif text-xl tracking-[0.3em] text-primary"
+            className="font-serif text-lg tracking-[0.4em] text-primary/70"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
           >
-            Loading...
+            Loading
           </motion.p>
           <motion.div
-            className="mt-4 h-0.5 bg-primary/30 rounded-full overflow-hidden w-32"
+            className="mt-6 h-px bg-primary/20 rounded-full overflow-hidden w-28"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7 }}
           >
             <motion.div
-              className="h-full bg-primary rounded-full"
+              className="h-full bg-primary/60 rounded-full"
               initial={{ width: "0%" }}
               animate={{ width: "100%" }}
               transition={{ duration: 2, ease: "easeInOut" }}

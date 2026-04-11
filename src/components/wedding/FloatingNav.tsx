@@ -15,16 +15,16 @@ const FloatingNav = ({ isOpen }: { isOpen: boolean }) => {
 
   return (
     <motion.nav
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 glass-card rounded-full px-4 py-2 flex gap-1"
+      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 glass-card-premium rounded-full px-3 py-2 flex gap-0.5"
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 0.5 }}
+      transition={{ delay: 0.5, type: "spring", stiffness: 100 }}
     >
       {navItems.map(({ icon: Icon, href, label }) => (
         <a
           key={href}
           href={href}
-          className="p-2.5 rounded-full text-foreground/40 hover:text-primary hover:bg-primary/10 transition-colors"
+          className="p-2.5 rounded-full text-foreground/40 hover:text-primary hover:bg-primary/10 transition-all duration-300"
           title={label}
         >
           <Icon className="w-4 h-4" />
