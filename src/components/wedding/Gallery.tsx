@@ -19,11 +19,11 @@ const Gallery = () => {
     <section id="gallery" className="section-padding" ref={ref}>
       <div className="max-w-5xl mx-auto">
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
         >
-          <p className="font-sans text-xs tracking-[0.3em] uppercase text-foreground/40 mb-3">
+          <p className="font-sans text-xs tracking-[0.3em] uppercase text-foreground/30 mb-4">
             Our Moments
           </p>
           <h2 className="font-serif text-3xl md:text-4xl text-gradient-gold">Gallery</h2>
@@ -33,19 +33,20 @@ const Gallery = () => {
           {images.map((img, i) => (
             <motion.div
               key={i}
-              className="relative overflow-hidden rounded-lg cursor-pointer group aspect-square"
+              className="relative overflow-hidden rounded-xl cursor-pointer group aspect-square"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: i * 0.1 }}
+              transition={{ delay: i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => setSelected(img)}
             >
               <img
                 src={img}
                 alt={`Gallery ${i + 1}`}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-background/0 group-hover:bg-background/30 transition-colors duration-300" />
+              <div className="absolute inset-0 bg-background/0 group-hover:bg-background/20 transition-colors duration-500" />
+              <div className="absolute inset-0 border border-primary/0 group-hover:border-primary/20 rounded-xl transition-colors duration-500" />
             </motion.div>
           ))}
         </div>
@@ -54,14 +55,14 @@ const Gallery = () => {
       <AnimatePresence>
         {selected && (
           <motion.div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 p-6"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm p-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelected(null)}
           >
             <button
-              className="absolute top-6 right-6 text-foreground/60 hover:text-primary transition-colors"
+              className="absolute top-6 right-6 text-foreground/40 hover:text-primary transition-colors z-10"
               onClick={() => setSelected(null)}
             >
               <X className="w-8 h-8" />
@@ -70,9 +71,10 @@ const Gallery = () => {
               src={selected}
               alt="Gallery preview"
               className="max-w-full max-h-[85vh] object-contain rounded-lg"
-              initial={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: 0.85, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 25 }}
             />
           </motion.div>
         )}

@@ -15,6 +15,12 @@ import MusicPlayer from "@/components/wedding/MusicPlayer";
 import FloatingNav from "@/components/wedding/FloatingNav";
 import ornament from "@/assets/ornament.png";
 
+const SectionDivider = () => (
+  <div className="flex justify-center py-4">
+    <img src={ornament} alt="" className="w-16 opacity-15" loading="lazy" />
+  </div>
+);
+
 const Index = () => {
   const [searchParams] = useSearchParams();
   const guestName = searchParams.get("to") || undefined;
@@ -46,7 +52,7 @@ const Index = () => {
   }, [isOpen]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <LoadingScreen isVisible={loading} />
 
       {!loading && (
@@ -56,38 +62,25 @@ const Index = () => {
           </AnimatePresence>
 
           {isOpen && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8 }}>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
               <CoupleSection />
-
-              <div className="flex justify-center">
-                <img src={ornament} alt="" className="w-20 opacity-20" loading="lazy" />
-              </div>
-
+              <SectionDivider />
               <EventDetails />
               <CountdownTimer />
-
-              <div className="flex justify-center">
-                <img src={ornament} alt="" className="w-20 opacity-20" loading="lazy" />
-              </div>
-
+              <SectionDivider />
               <Gallery />
               <LoveStory />
               <LocationSection />
-
-              <div className="flex justify-center">
-                <img src={ornament} alt="" className="w-20 opacity-20" loading="lazy" />
-              </div>
-
+              <SectionDivider />
               <RSVPForm onWishAdded={handleWishAdded} />
               <WishesSection wishes={wishes} />
 
-              {/* Footer */}
-              <footer className="text-center py-12 px-6">
-                <p className="font-serif text-2xl text-gradient-gold mb-2">Ahmad & Aisyah</p>
-                <p className="font-sans text-xs tracking-[0.2em] text-foreground/30">
+              <footer className="text-center py-16 px-6">
+                <p className="font-serif text-2xl text-gradient-gold mb-3">Ahmad & Aisyah</p>
+                <p className="font-sans text-xs tracking-[0.2em] text-foreground/25">
                   Thank you for being part of our special day
                 </p>
-                <p className="font-sans text-[10px] text-foreground/20 mt-4">
+                <p className="font-sans text-[10px] text-foreground/15 mt-6">
                   Made with ❤️
                 </p>
               </footer>
