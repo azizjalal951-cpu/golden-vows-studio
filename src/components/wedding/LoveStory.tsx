@@ -3,27 +3,33 @@ import { useRef } from "react";
 import { Heart } from "lucide-react";
 
 const stories = [
-<<<<<<< HEAD
-  { date: "Januari 2026", title: "Pertama Bertemu", desc: "Kami pertama kali bertemu di sebuah acara kampus. Pandangan pertama yang tak terlupakan di tengah riuhnya suasana." },
-  { date: "Juni 2026", title: "Mulai Dekat", desc: "Setelah berbulan-bulan saling mengenal, kami mulai menjalin hubungan yang lebih dekat dan menemukan banyak kesamaan." },
-  { date: "November 2026", title: "Lamaran", desc: "Di bawah langit malam yang penuh bintang, sebuah pertanyaan sederhana yang tulus akhirnya mengubah segalanya." },
-  { date: "Desember 2026", title: "Pernikahan", desc: "Hari yang kami tunggu, untuk menyatukan dua hati dalam satu ikatan suci yang diberkahi." },
-=======
-  { date: "Januari 2020", title: "Pertama Bertemu", desc: "Kami pertama kali bertemu di sebuah acara kampus. Pandangan pertama yang tak terlupakan." },
-  { date: "Juni 2020", title: "Mulai Dekat", desc: "Setelah berbulan-bulan saling mengenal, kami mulai menjalin hubungan yang lebih dekat." },
-  { date: "Desember 2022", title: "Lamaran", desc: "Di bawah langit malam yang penuh bintang, sebuah pertanyaan sederhana mengubah segalanya." },
-  { date: "Desember 2025", title: "Pernikahan", desc: "Hari yang kami tunggu, untuk menyatukan dua hati dalam satu ikatan suci." },
->>>>>>> 38fe2865c1ab42f3c76eb91a398eb4e9b141fdaf
+  { 
+    date: "Januari 2020", 
+    title: "Pertama Bertemu", 
+    desc: "Kami pertama kali bertemu di sebuah acara kampus. Sebuah awal sederhana yang ternyata menjadi babak baru dalam hidup kami." 
+  },
+  { 
+    date: "Juni 2020", 
+    title: "Mulai Dekat", 
+    desc: "Setelah berbulan-bulan saling mengenal, kami mulai menemukan banyak kesamaan dan memutuskan untuk melangkah bersama." 
+  },
+  { 
+    date: "Desember 2022", 
+    title: "Momen Lamaran", 
+    desc: "Di bawah saksi keluarga dan sahabat, sebuah janji diucapkan untuk mengukuhkan komitmen kami ke jenjang yang lebih serius." 
+  },
+  { 
+    date: "Desember 2025", 
+    title: "Hari Pernikahan", 
+    desc: "Hari yang kami tunggu untuk menyatukan dua hati dalam satu ikatan suci yang diberkahi selamanya." 
+  },
 ];
 
 const LoveStory = () => {
   const ref = useRef(null);
-<<<<<<< HEAD
-  /* Audit #13: Margin diperkecil agar animasi trigger lebih cepat di mobile */
   const inView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    /* Audit #5: Konsistensi Vertical Spacing (py-24 md:py-32) */
     <section id="story" className="relative py-24 md:py-32 px-6 overflow-hidden bg-[#121212]" ref={ref}>
       <div className="max-w-5xl mx-auto relative z-10">
         
@@ -36,14 +42,13 @@ const LoveStory = () => {
           <p className="font-sans text-[10px] md:text-xs tracking-[0.5em] uppercase text-[#C9A961]/50 mb-4">
             Our Journey
           </p>
-          {/* Audit #9: Heading Level yang lebih tegas */}
           <h2 className="font-serif text-4xl md:text-6xl text-gradient-gold-strong leading-tight">
             Love Story
           </h2>
         </motion.div>
 
         <div className="relative">
-          {/* Garis Tengah Timeline - Audit #12: Menggunakan warna emas redup agar elegan */}
+          {/* Garis Tengah Timeline */}
           <div className="absolute left-4 md:left-1/2 md:-translate-x-1/2 top-0 bottom-0 w-[0.5px] bg-gradient-to-b from-transparent via-[#C9A961]/30 to-transparent" />
 
           <div className="space-y-16 md:space-y-28">
@@ -57,10 +62,10 @@ const LoveStory = () => {
                 animate={inView ? { opacity: 1, x: 0 } : {}}
                 transition={{ delay: i * 0.3, duration: 0.8 }}
               >
-                {/* Sisi Kosong untuk Desktop */}
+                {/* Sisi Kosong untuk Desktop agar Zig-zag */}
                 <div className="hidden md:block flex-1" />
 
-                {/* Dot Tengah (Ikon Hati) - Audit #7: Peningkatan Visual Dot */}
+                {/* Dot Tengah (Ikon Hati) */}
                 <div className="absolute left-0 md:relative md:left-auto z-20 flex-shrink-0 w-8 h-8 md:mx-12">
                   <div className="w-8 h-8 rounded-full bg-[#121212] border border-[#D4AF37]/50 flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.15)] ring-4 ring-[#121212]">
                     <Heart className="w-3 h-3 text-[#D4AF37] fill-[#D4AF37]/20" />
@@ -73,7 +78,6 @@ const LoveStory = () => {
                     whileHover={{ y: -5 }}
                     className="glass-card-premium rounded-2xl p-7 md:p-10 border border-[#D4AF37]/10 hover:border-[#D4AF37]/40 transition-all duration-500 group"
                   >
-                    {/* Audit #3: Ukuran tanggal dibuat 12px agar terbaca */}
                     <span className="inline-block font-sans text-[11px] md:text-xs tracking-[0.2em] text-[#D4AF37] uppercase font-semibold mb-4 opacity-80 group-hover:opacity-100 transition-opacity">
                       {story.date}
                     </span>
@@ -82,70 +86,22 @@ const LoveStory = () => {
                       {story.title}
                     </h4>
                     
-                    {/* Audit #3: Body text minimum 16px untuk keterbacaan mobile */}
                     <p className="font-sans text-[15px] md:text-[17px] text-white/60 leading-relaxed font-light">
                       {story.desc}
                     </p>
                   </motion.div>
-=======
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  return (
-    <section id="story" className="section-padding" ref={ref}>
-      <div className="max-w-2xl mx-auto">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-        >
-          <p className="font-sans text-xs tracking-[0.3em] uppercase text-foreground/30 mb-4">
-            Our Journey
-          </p>
-          <h2 className="font-serif text-3xl md:text-4xl text-gradient-gold">Love Story</h2>
-        </motion.div>
-
-        <div className="relative">
-          <div className="absolute left-6 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-primary/15" />
-
-          <div className="space-y-14">
-            {stories.map((story, i) => (
-              <motion.div
-                key={i}
-                className={`relative flex items-start gap-6 pl-14 md:pl-0 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
-                initial={{ opacity: 0, y: 30 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: i * 0.15, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <div className="hidden md:block flex-1" />
-                <div className="absolute left-3 md:relative md:left-auto z-10 flex-shrink-0">
-                  <div className="w-8 h-8 rounded-full bg-secondary border border-primary/20 flex items-center justify-center glow-gold">
-                    <Heart className="w-3.5 h-3.5 text-primary" />
-                  </div>
-                </div>
-                <div className="flex-1 glass-card rounded-xl p-6">
-                  <span className="font-sans text-[10px] tracking-[0.2em] text-primary/60 uppercase">{story.date}</span>
-                  <h4 className="font-serif text-lg text-primary mt-1 mb-2">{story.title}</h4>
-                  <p className="font-sans text-sm text-foreground/50 leading-relaxed">{story.desc}</p>
->>>>>>> 38fe2865c1ab42f3c76eb91a398eb4e9b141fdaf
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
       </div>
-<<<<<<< HEAD
 
-      {/* Audit #4: Romantic Atmosphere (Subtle Background Glows) */}
+      {/* Atmosfer Romantis (Subtle Background Glows) */}
       <div className="absolute top-1/4 -left-20 w-[400px] h-[400px] bg-[#D4AF37]/5 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute bottom-1/4 -right-20 w-[400px] h-[400px] bg-[#D4AF37]/5 blur-[120px] rounded-full pointer-events-none" />
-=======
->>>>>>> 38fe2865c1ab42f3c76eb91a398eb4e9b141fdaf
     </section>
   );
 };
 
-<<<<<<< HEAD
 export default LoveStory;
-=======
-export default LoveStory;
->>>>>>> 38fe2865c1ab42f3c76eb91a398eb4e9b141fdaf
