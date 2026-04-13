@@ -166,7 +166,7 @@ const HeroSection = ({ guestName, onOpen }: HeroSectionProps) => {
           animate={{ opacity: 1 }}
           transition={{ delay: 2.2 }}
         >
-          25 . 12 . 2026
+          14 . 04 . 2026
         </motion.p>
 
         {/* Tombol Utama */}

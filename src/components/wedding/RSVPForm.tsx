@@ -2,6 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { Send, CheckCircle2, XCircle, Users } from "lucide-react";
+import { supabase } from "@/lib/supabase"; // Pastikan path import benar
 
 interface RSVPData {
   name: string;
@@ -23,26 +24,51 @@ const RSVPForm = ({ onWishAdded }: { onWishAdded?: (wish: { name: string; messag
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validasi Dasar
     if (!form.name.trim()) {
       toast.error("Mohon masukkan nama Anda ✨");
       return;
     }
+
     setLoading(true);
 
-    // Simulasi delay (siap untuk integrasi Supabase)
-    await new Promise((r) => setTimeout(r, 1500));
+    try {
+      // 1. Kirim data ke Tabel 'rsvp' di Supabase
+      const { error } = await supabase
+        .from('rsvp')
+        .insert([
+          { 
+            name: form.name, 
+            attendance: form.attendance, 
+            guests: form.attendance === 'yes' ? form.guests : 0, 
+            message: form.message 
+          }
+        ]);
 
-    if (form.message.trim() && onWishAdded) {
-      onWishAdded({
-        name: form.name,
-        message: form.message,
-        date: new Date().toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" }),
-      });
+      if (error) throw error;
+
+      // 2. Jika pengiriman berhasil, update UI Wish secara lokal (jika ada pesannya)
+      if (form.message.trim() && onWishAdded) {
+        onWishAdded({
+          name: form.name,
+          message: form.message,
+          date: "Baru saja",
+        });
+      }
+
+      // 3. Feedback Berhasil
+      toast.success("Terima kasih, konfirmasi Anda telah tersimpan! 💝");
+      
+      // Reset Form
+      setForm({ name: "", attendance: "yes", guests: 1, message: "" });
+      
+    } catch (error: any) {
+      console.error("Error saving RSVP:", error.message);
+      toast.error("Gagal mengirim RSVP. Silakan coba lagi.");
+    } finally {
+      setLoading(false);
     }
-
-    toast.success("Terima kasih atas konfirmasinya! 💝");
-    setForm({ name: "", attendance: "yes", guests: 1, message: "" });
-    setLoading(false);
   };
 
   return (
@@ -60,7 +86,7 @@ const RSVPForm = ({ onWishAdded }: { onWishAdded?: (wish: { name: string; messag
             Be Our Guest
           </p>
           <h2 className="font-serif text-4xl md:text-6xl text-gradient-gold-strong">RSVP</h2>
-          <p className="mt-6 font-sans text-white/40 text-sm md:text-base italic">
+          <p className="mt-6 font-sans text-white/40 text-sm md:text-base italic leading-relaxed">
             Merupakan suatu kehormatan bagi kami atas kehadiran Bapak/Ibu/Saudara/i.
           </p>
         </motion.div>
@@ -69,10 +95,9 @@ const RSVPForm = ({ onWishAdded }: { onWishAdded?: (wish: { name: string; messag
           initial={{ opacity: 0, scale: 0.95 }}
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ delay: 0.2, duration: 0.8 }}
-          className="glass-card-premium rounded-[2rem] p-8 md:p-12 border border-[#D4AF37]/10 relative overflow-hidden"
+          className="glass-card-premium rounded-[2.5rem] p-8 md:p-12 border border-[#D4AF37]/10 relative overflow-hidden"
         >
-          {/* Subtle Decorative Pattern */}
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-gold" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
 
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Nama */}
@@ -82,9 +107,10 @@ const RSVPForm = ({ onWishAdded }: { onWishAdded?: (wish: { name: string; messag
               </label>
               <input
                 type="text"
+                required
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 font-sans text-base text-white placeholder:text-white/20 focus:outline-none focus:border-[#D4AF37]/50 focus:bg-white/[0.08] transition-all"
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 font-sans text-base text-white placeholder:text-white/20 focus:outline-none focus:border-[#D4AF37]/50 focus:bg-white/[0.08] transition-all"
                 placeholder="Contoh: Budi Sudarsono"
               />
             </div>
@@ -103,9 +129,9 @@ const RSVPForm = ({ onWishAdded }: { onWishAdded?: (wish: { name: string; messag
                     key={val.id}
                     type="button"
                     onClick={() => setForm({ ...form, attendance: val.id })}
-                    className={`flex-1 flex items-center justify-center gap-3 py-4 rounded-xl font-sans text-sm font-medium transition-all duration-300 ${
+                    className={`flex-1 flex items-center justify-center gap-3 py-4 rounded-2xl font-sans text-sm font-medium transition-all duration-500 ${
                       form.attendance === val.id
-                        ? "bg-[#D4AF37] text-[#121212] shadow-[0_0_20px_rgba(212,175,55,0.3)]"
+                        ? "bg-[#D4AF37] text-[#121212] shadow-[0_0_25px_rgba(212,175,55,0.4)]"
                         : "bg-white/5 border border-white/10 text-white/40 hover:border-[#D4AF37]/30"
                     }`}
                   >
@@ -116,11 +142,11 @@ const RSVPForm = ({ onWishAdded }: { onWishAdded?: (wish: { name: string; messag
               </div>
             </div>
 
-            {/* Jumlah Tamu - Hanya muncul jika 'yes' */}
+            {/* Jumlah Tamu */}
             {form.attendance === "yes" && (
               <motion.div 
-                initial={{ opacity: 0, height: 0 }} 
-                animate={{ opacity: 1, height: "auto" }}
+                initial={{ opacity: 0, y: -10 }} 
+                animate={{ opacity: 1, y: 0 }}
                 className="space-y-3"
               >
                 <label className="flex items-center gap-2 font-sans text-[11px] tracking-[0.2em] uppercase text-[#C9A961]">
@@ -130,16 +156,16 @@ const RSVPForm = ({ onWishAdded }: { onWishAdded?: (wish: { name: string; messag
                   <select
                     value={form.guests}
                     onChange={(e) => setForm({ ...form, guests: Number(e.target.value) })}
-                    className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 font-sans text-base text-white appearance-none focus:outline-none focus:border-[#D4AF37]/50 transition-all cursor-pointer"
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 font-sans text-base text-white appearance-none focus:outline-none focus:border-[#D4AF37]/50 transition-all cursor-pointer"
                   >
-                    {[1, 2, 3, 4].map((n) => (
+                    {[1, 2, 3, 4, 5].map((n) => (
                       <option key={n} value={n} className="bg-[#1a1a1a] text-white">
-                        {n} {n === 1 ? "Orang" : "Orang"}
+                        {n} Orang
                       </option>
                     ))}
                   </select>
-                  <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-[#C9A961]">
-                    ↓
+                  <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-[#C9A961] opacity-50">
+                    ▼
                   </div>
                 </div>
               </motion.div>
@@ -154,28 +180,28 @@ const RSVPForm = ({ onWishAdded }: { onWishAdded?: (wish: { name: string; messag
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 rows={4}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 font-sans text-base text-white placeholder:text-white/20 focus:outline-none focus:border-[#D4AF37]/50 focus:bg-white/[0.08] transition-all resize-none"
-                placeholder="Tuliskan pesan manis Anda..."
+                className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 font-sans text-base text-white placeholder:text-white/20 focus:outline-none focus:border-[#D4AF37]/50 focus:bg-white/[0.08] transition-all resize-none"
+                placeholder="Tuliskan pesan manis Anda untuk kedua mempelai..."
               />
             </div>
 
-            {/* Tombol Submit - Audit #7 & #13 */}
+            {/* Tombol Submit */}
             <motion.button
               type="submit"
               disabled={loading}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full btn-luxury relative py-5 flex items-center justify-center gap-3 disabled:opacity-50 overflow-hidden shadow-[0_10px_30px_rgba(212,175,55,0.2)]"
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
+              className="w-full btn-luxury relative py-5 flex items-center justify-center gap-3 disabled:opacity-50 transition-all shadow-[0_15px_35px_rgba(212,175,55,0.25)]"
             >
               {loading ? (
                 <div className="flex items-center gap-3">
-                  <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
-                  <span>Mengirim...</span>
+                  <div className="w-5 h-5 border-2 border-black/20 border-t-black rounded-full animate-spin" />
+                  <span className="font-medium tracking-widest uppercase text-xs">Mengirim...</span>
                 </div>
               ) : (
                 <>
                   <Send className="w-4 h-4" />
-                  <span>Kirim Konfirmasi</span>
+                  <span className="font-medium tracking-widest uppercase text-xs">Kirim Konfirmasi</span>
                 </>
               )}
             </motion.button>
