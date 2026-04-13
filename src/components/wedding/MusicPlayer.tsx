@@ -1,5 +1,9 @@
 import { useState, useRef, useEffect } from "react";
+<<<<<<< HEAD
 import { motion, AnimatePresence } from "framer-motion";
+=======
+import { motion } from "framer-motion";
+>>>>>>> 38fe2865c1ab42f3c76eb91a398eb4e9b141fdaf
 import { Music, VolumeX } from "lucide-react";
 
 const MusicPlayer = ({ isOpen }: { isOpen: boolean }) => {
@@ -7,11 +11,16 @@ const MusicPlayer = ({ isOpen }: { isOpen: boolean }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
+<<<<<<< HEAD
     // Saat undangan dibuka, coba putar musik otomatis
     if (isOpen && audioRef.current) {
       audioRef.current.play()
         .then(() => setPlaying(true))
         .catch((err) => console.log("Autoplay blocked or failed:", err));
+=======
+    if (isOpen && audioRef.current && !playing) {
+      audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
+>>>>>>> 38fe2865c1ab42f3c76eb91a398eb4e9b141fdaf
     }
   }, [isOpen]);
 
@@ -30,6 +39,7 @@ const MusicPlayer = ({ isOpen }: { isOpen: boolean }) => {
       <audio
         ref={audioRef}
         loop
+<<<<<<< HEAD
         // Ubah preload ke "auto" agar musik siap saat tombol diklik
         preload="auto" 
         // Ganti URL ini dengan file .mp3 romantis pilihan Anda di folder public
@@ -78,8 +88,34 @@ const MusicPlayer = ({ isOpen }: { isOpen: boolean }) => {
           </motion.button>
         )}
       </AnimatePresence>
+=======
+        preload="none"
+        src="https://cdn.pixabay.com/audio/2024/11/29/audio_d4e4e15e38.mp3"
+      />
+      {isOpen && (
+        <motion.button
+          className="fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full glass-card-premium flex items-center justify-center border border-primary/20"
+          onClick={toggle}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          whileHover={{ scale: 1.1, boxShadow: "0 0 20px hsl(43 76% 52% / 0.3)" }}
+          whileTap={{ scale: 0.9 }}
+          title={playing ? "Mute" : "Play music"}
+        >
+          {playing ? (
+            <Music className="w-5 h-5 text-primary animate-pulse" />
+          ) : (
+            <VolumeX className="w-5 h-5 text-foreground/50" />
+          )}
+        </motion.button>
+      )}
+>>>>>>> 38fe2865c1ab42f3c76eb91a398eb4e9b141fdaf
     </>
   );
 };
 
+<<<<<<< HEAD
 export default MusicPlayer;
+=======
+export default MusicPlayer;
+>>>>>>> 38fe2865c1ab42f3c76eb91a398eb4e9b141fdaf

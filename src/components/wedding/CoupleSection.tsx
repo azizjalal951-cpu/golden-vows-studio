@@ -77,7 +77,11 @@ const CoupleSection = () => {
             className="font-serif text-4xl text-primary/50"
             initial={{ opacity: 0, scale: 0 }}
             animate={inView ? { opacity: 1, scale: 1 } : {}}
+<<<<<<< HEAD
             transition={{ delay: 0.3, type: "spring" }}
+=======
+            transition={{ delay: 0.5, type: "spring" }}
+>>>>>>> 38fe2865c1ab42f3c76eb91a398eb4e9b141fdaf
           >
             &
           </motion.div>
