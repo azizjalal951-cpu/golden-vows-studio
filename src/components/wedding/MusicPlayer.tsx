@@ -4,8 +4,6 @@ import { Music, VolumeX } from "lucide-react";
 
 /**
  * Interface untuk Props MusicPlayer.
- * Menggunakan '?' agar 'isOpen' menjadi opsional bagi pemanggil,
- * sehingga menghilangkan error "Property 'isOpen' is missing".
  */
 interface MusicPlayerProps {
   isOpen?: boolean;
@@ -16,15 +14,20 @@ const MusicPlayer = ({ isOpen = false }: MusicPlayerProps) => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    // Logika Autoplay: Jalan otomatis saat undangan terbuka
+    // Memutar audio otomatis hanya jika tombol "Buka Undangan" sudah diklik (isOpen === true)
     if (isOpen && audioRef.current && !playing) {
       const playAudio = async () => {
         try {
-          await audioRef.current?.play();
-          setPlaying(true);
+          // Delay singkat 500ms agar transisi visual selesai dulu baru musik masuk
+          setTimeout(async () => {
+            if (audioRef.current) {
+              await audioRef.current.play();
+              setPlaying(true);
+            }
+          }, 500);
         } catch (err) {
-          // Browser biasanya memblokir autoplay sebelum user berinteraksi
-          console.warn("Autoplay tertunda: Menunggu interaksi pengguna.");
+          // Warning ini wajar jika browser masih memblokir karena dianggap kurang interaksi
+          console.warn("Autoplay tertunda: Menunggu interaksi pengguna lebih lanjut.");
         }
       };
       playAudio();
@@ -48,8 +51,11 @@ const MusicPlayer = ({ isOpen = false }: MusicPlayerProps) => {
         ref={audioRef}
         loop
         preload="auto"
-        // Pastikan file romantis.mp3 ada di folder public/
-        src="/romantis.mp3"
+        /* MENGGUNAKAN BASE_URL:
+           Otomatis mengarah ke / saat di localhost
+           Otomatis mengarah ke /golden-vows-studio/ saat di GitHub Pages
+        */
+        src={`${import.meta.env.BASE_URL}romantis.mp3`}
       />
       
       <AnimatePresence>
@@ -77,7 +83,7 @@ const MusicPlayer = ({ isOpen = false }: MusicPlayerProps) => {
               <VolumeX className="w-5 h-5 text-white/40" />
             )}
 
-            {/* Animasi Riak Gelombang (Pulse) saat musik menyala */}
+            {/* Efek riak gelombang emas saat musik menyala */}
             {playing && (
               <motion.div
                 className="absolute inset-0 rounded-full border border-[#D4AF37]/40"
